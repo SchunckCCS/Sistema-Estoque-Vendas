@@ -1,4 +1,6 @@
-class Estoques:
+from produto import Produto, validar_codigo, validar_quantidade
+
+class Estoque:
 
     def __init__(self):
         self.produtos_ordenados = []
@@ -15,12 +17,12 @@ class Estoques:
         return produto
     
     def editar(self, codigo, nome=None, categoria=None, preco=None, quantidade=None):
-            produto = self.buscar_por_codigo(codigo)
-            if produto is None:
-                raise ValueError("Produto nao encontrado.")
+        produto = self.buscar_por_codigo(codigo)
+        if produto is None:
+            raise ValueError("Produto nao encontrado.")
 
-            produto.atualizar(nome, categoria, preco, quantidade)
-            return produto
+        produto.atualizar(nome, categoria, preco, quantidade)
+        return produto
         
     def remover(self, codigo):
         codigo = validar_codigo(codigo)
@@ -59,6 +61,11 @@ class Estoques:
         termo = str(termo).strip().lower()
         if termo == "":
             raise ValueError("Nome para busca nao pode ficar vazio.")
+        encontrados = []
+        for produto in self.produtos_cadastro:
+            if termo in produto.nome.lower():
+                encontrados.append(produto)
+        return encontrados
         
     def listar_ordenados(self):
         """Retorna produtos ordenados por codigo."""
@@ -84,6 +91,19 @@ class Estoques:
             if produto.quantidade < limite
         ]
         
+    def carregar_produtos(self, produtos):
+        """Carrega produtos, reconstruindo os dois vetores."""
+        self.produtos_ordenados = []
+        self.produtos_cadastro = []
+        for produto in produtos:
+            self.cadastrar(
+                produto.codigo,
+                produto.nome,
+                produto.categoria,
+                produto.preco,
+                produto.quantidade,
+            )
+        
     def menor_preco(self):
         if not self.produtos_ordenados:
             return None
@@ -107,5 +127,17 @@ class Estoques:
 
         produto.quantidade -= quantidade
         return produto
-    
+
+    def _posicao_insercao(self, codigo):
+        inicio = 0
+        fim = len(self.produtos_ordenados)
+
+        while inicio < fim:
+            meio = (inicio + fim) // 2
+            if self.produtos_ordenados[meio].codigo < codigo:
+                inicio = meio + 1
+            else:
+                fim = meio
+
+        return inicio
     
