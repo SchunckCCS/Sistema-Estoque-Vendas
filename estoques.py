@@ -56,3 +56,61 @@ class Estoques:
                 fim = meio - 1
 
         return -1
+    
+    def buscar_por_nome(self, termo):
+        """Busca linear no vetor nao ordenado de cadastro. O(n)."""
+        termo = str(termo).strip().lower()
+        if termo == "":
+            raise ValueError("Nome para busca nao pode ficar vazio.")
+        
+    def listar_ordenados(self):
+        """Retorna produtos ordenados por codigo."""
+        return list(self.produtos_ordenados)
+    
+    def listar_por_categoria(self, categoria):
+        """Filtra produtos por categoria."""
+        categoria = str(categoria).strip().lower()
+        if categoria == "":
+            raise ValueError("Categoria nao pode ficar vazia.")
+
+        return [
+            produto
+            for produto in self.produtos_ordenados
+            if produto.categoria.lower() == categoria
+        ]
+        
+    def estoque_baixo(self, limite):
+        """Lista produtos com quantidade abaixo do limite informado."""
+        limite = validar_quantidade(limite)
+        return [
+            produto
+            for produto in self.produtos_ordenados
+            if produto.quantidade < limite
+        ]
+        
+    def menor_preco(self):
+        """Retorna o produto de menor preco."""
+        if not self.produtos_ordenados:
+            return None
+        return min(self.produtos_ordenados, key=lambda produto: produto.preco)
+
+    def maior_preco(self):
+        """Retorna o produto de maior preco."""
+        if not self.produtos_ordenados:
+            return None
+        return max(self.produtos_ordenados, key=lambda produto: produto.preco)
+    
+    def registrar_venda(self, codigo, quantidade):
+        """Reduz estoque quando a quantidade solicitada esta disponivel."""
+        quantidade = validar_quantidade(quantidade)
+        if quantidade == 0:
+            raise ValueError("Quantidade vendida deve ser maior que zero.")
+
+        produto = self.buscar_por_codigo(codigo)
+        if produto is None:
+            raise ValueError("Produto nao encontrado.")
+        if produto.quantidade < quantidade:
+            raise ValueError("Estoque insuficiente para essa venda.")
+
+        produto.quantidade -= quantidade
+        return produto
