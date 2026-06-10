@@ -1,0 +1,30 @@
+[
+    {
+        "codigo": 101,
+        "nome": "Mouse USB",
+        "categoria": "Informatica",
+        "preco": 39.9,
+        "quantidade": 12
+    },
+    {
+        "codigo": 205,
+        "nome": "Caderno Universitario",
+        "categoria": "Papelaria",
+        "preco": 24.5,
+        "quantidade": 8
+    },
+    {
+        "codigo": 310,
+        "nome": "Garrafa Termica",
+        "categoria": "Utilidades",
+        "preco": 59.9,
+        "quantidade": 3
+    },
+    {
+        "codigo": 420,
+        "nome": "Teclado ABNT2",
+        "categoria": "Informatica",
+        "preco": 89.0,
+        "quantidade": 5
+    }
+]

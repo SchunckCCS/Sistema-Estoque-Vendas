@@ -23,7 +23,6 @@ class Estoques:
             return produto
         
     def remover(self, codigo):
-        """Remove produto pelo codigo."""
         codigo = validar_codigo(codigo)
         indice = self._indice_busca_binaria(codigo)
         if indice == -1:
@@ -34,7 +33,6 @@ class Estoques:
         return produto
 
     def buscar_por_codigo(self, codigo):
-        """Busca binaria em vetor ordenado por codigo. O(log n)."""
         indice = self._indice_busca_binaria(validar_codigo(codigo))
         if indice == -1:
             return None
@@ -58,7 +56,6 @@ class Estoques:
         return -1
     
     def buscar_por_nome(self, termo):
-        """Busca linear no vetor nao ordenado de cadastro. O(n)."""
         termo = str(termo).strip().lower()
         if termo == "":
             raise ValueError("Nome para busca nao pode ficar vazio.")
@@ -80,7 +77,6 @@ class Estoques:
         ]
         
     def estoque_baixo(self, limite):
-        """Lista produtos com quantidade abaixo do limite informado."""
         limite = validar_quantidade(limite)
         return [
             produto
@@ -89,19 +85,16 @@ class Estoques:
         ]
         
     def menor_preco(self):
-        """Retorna o produto de menor preco."""
         if not self.produtos_ordenados:
             return None
         return min(self.produtos_ordenados, key=lambda produto: produto.preco)
 
     def maior_preco(self):
-        """Retorna o produto de maior preco."""
         if not self.produtos_ordenados:
             return None
         return max(self.produtos_ordenados, key=lambda produto: produto.preco)
     
     def registrar_venda(self, codigo, quantidade):
-        """Reduz estoque quando a quantidade solicitada esta disponivel."""
         quantidade = validar_quantidade(quantidade)
         if quantidade == 0:
             raise ValueError("Quantidade vendida deve ser maior que zero.")
@@ -114,3 +107,5 @@ class Estoques:
 
         produto.quantidade -= quantidade
         return produto
+    
+    
