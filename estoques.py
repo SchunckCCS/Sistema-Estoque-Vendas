@@ -1,12 +1,10 @@
-class Estoque:
-    """Controla produtos em dois vetores para demonstrar buscas diferentes."""
+class Estoques:
 
     def __init__(self):
         self.produtos_ordenados = []
         self.produtos_cadastro = []
 
     def cadastrar(self, codigo, nome, categoria, preco, quantidade):
-        """Cadastra produto mantendo o vetor ordenado por codigo."""
         produto = Produto(codigo, nome, categoria, preco, quantidade)
         if self.buscar_por_codigo(produto.codigo) is not None:
             raise ValueError("Ja existe produto com esse codigo.")
@@ -17,7 +15,6 @@ class Estoque:
         return produto
     
     def editar(self, codigo, nome=None, categoria=None, preco=None, quantidade=None):
-            """Edita um produto existente."""
             produto = self.buscar_por_codigo(codigo)
             if produto is None:
                 raise ValueError("Produto nao encontrado.")
