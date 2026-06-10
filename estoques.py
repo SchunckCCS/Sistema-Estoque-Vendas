@@ -21,3 +21,38 @@ class Estoques:
 
             produto.atualizar(nome, categoria, preco, quantidade)
             return produto
+        
+    def remover(self, codigo):
+        """Remove produto pelo codigo."""
+        codigo = validar_codigo(codigo)
+        indice = self._indice_busca_binaria(codigo)
+        if indice == -1:
+            raise ValueError("Produto nao encontrado.")
+
+        produto = self.produtos_ordenados.pop(indice)
+        self.produtos_cadastro.remove(produto)
+        return produto
+
+    def buscar_por_codigo(self, codigo):
+        """Busca binaria em vetor ordenado por codigo. O(log n)."""
+        indice = self._indice_busca_binaria(validar_codigo(codigo))
+        if indice == -1:
+            return None
+        return self.produtos_ordenados[indice]
+    
+    def _indice_busca_binaria(self, codigo):
+        inicio = 0
+        fim = len(self.produtos_ordenados) - 1
+
+        while inicio <= fim:
+            meio = (inicio + fim) // 2
+            produto = self.produtos_ordenados[meio]
+
+            if produto.codigo == codigo:
+                return meio
+            if produto.codigo < codigo:
+                inicio = meio + 1
+            else:
+                fim = meio - 1
+
+        return -1
